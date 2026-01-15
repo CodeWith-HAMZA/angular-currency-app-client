@@ -1,0 +1,37 @@
+.currency-history {
+  background-color: #fafbfc;
+  border-radius: 1rem;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  box-shadow: 0 0 8px 1px rgba(60,60,100,0.08);
+  margin: 2.5rem auto 0 auto;
+  max-width: 480px;
+}
+.currency-history h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #41497B;
+  margin-bottom: 1.5rem;
+}
+.currency-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.currency-history__row {
+  margin-bottom: .9rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px dotted #c6c5e4;
+  display: flex;
+  flex-direction: column;
+}
+.currency-history__main {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #053d57;
+}
+.currency-history__rate {
+  font-size: .9rem;
+  color: #49585e;
+  margin-left: .5rem;
+}
+
