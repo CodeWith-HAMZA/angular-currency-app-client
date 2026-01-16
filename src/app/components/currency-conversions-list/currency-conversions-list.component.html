@@ -1,0 +1,14 @@
+<section class="currency-history">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+    <h2 style="margin:0;">Conversion History</h2>
+    <button mat-raised-button color="primary" (click)="refresh()">Refresh</button>
+  </div>
+  <ul>
+    <li *ngFor="let c of conversions; let i = index">
+      <div class="currency-history__row">
+        <span class="currency-history__main">#{{conversions.length - i}}: {{ c.amount | number }} {{ c.fromCurrency }} ➔ {{ c.convertedAmount | number }} {{ c.toCurrency }}</span>
+        <span class="currency-history__rate">(Rate: {{ c.toCurrencyRate }}, Date: {{ c.date }})</span>
+      </div>
+    </li>
+  </ul>
+</section>

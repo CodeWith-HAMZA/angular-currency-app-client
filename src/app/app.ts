@@ -11,8 +11,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-import { CurrencyResultComponent } from './currency-result/currency-result.component';
-import { CurrencyConversionsListComponent } from './components/currency-conversions-list.component';
+import { CurrencyResultComponent } from './components/currency-result/currency-result.component';
+import { CurrencyConversionsListComponent } from './components/currency-conversions-list/currency-conversions-list.component';
 import { formatDate, pushLocal, filterPastDates } from './utils';
 
 @Component({
