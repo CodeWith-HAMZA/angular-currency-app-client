@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
-  private readonly baseUrl = import.meta.env?.['NG_APP_API_URL'] ?? '';
+  private readonly baseUrl = import.meta.env?.['NG_APP_API_URL'] ?? 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
