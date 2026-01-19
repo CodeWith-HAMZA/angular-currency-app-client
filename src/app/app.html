@@ -1,25 +1,37 @@
 <main style="display: flex; flex-direction: column; align-items: center;">
   <h1>Currency Converter</h1>
-      <div *ngIf="isLoading()">Loading...</div>
-  <div *ngIf="error()">{{ error() }}</div>
+  @if (isLoading()) {
+    <div>Loading...</div>
+  }
+  @if (error()) {
+    <div>{{ error() }}</div>
+  }
 
-  <mat-form-field *ngIf="!isLoading() && currencies() && currencies()!.data" appearance="fill" style="width: 300px;">
-    <mat-label>From Currency</mat-label>
-    <mat-select [ngModel]="selectedCurrency()" (ngModelChange)="selectedCurrency.set($event)">
-      <mat-option *ngFor="let currency of objectValues(currencies()!.data)" [value]="currency.code">
-        {{currency.code}} - {{currency.name}} ({{currency.symbol}})
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  @if (!isLoading() && currencies() && currencies()!.data) {
+    <mat-form-field appearance="fill" style="width: 300px;">
+      <mat-label>From Currency</mat-label>
+      <mat-select [ngModel]="selectedCurrency()" (ngModelChange)="selectedCurrency.set($event)">
+        @for (currency of objectValues(currencies()!.data); track currency.code) {
+          <mat-option [value]="currency.code">
+            {{currency.code}} - {{currency.name}} ({{currency.symbol}})
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
 
-  <mat-form-field *ngIf="!isLoading() && currencies() && currencies()!.data" appearance="fill" style="width: 300px;">
-    <mat-label>To Currency</mat-label>
-    <mat-select [ngModel]="toCurrency()" (ngModelChange)="toCurrency.set($event)">
-      <mat-option *ngFor="let currency of objectValues(currencies()!.data)" [value]="currency.code">
-        {{currency.code}} - {{currency.name}} ({{currency.symbol}})
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  @if (!isLoading() && currencies() && currencies()!.data) {
+    <mat-form-field appearance="fill" style="width: 300px;">
+      <mat-label>To Currency</mat-label>
+      <mat-select [ngModel]="toCurrency()" (ngModelChange)="toCurrency.set($event)">
+        @for (currency of objectValues(currencies()!.data); track currency.code) {
+          <mat-option [value]="currency.code">
+            {{currency.code}} - {{currency.name}} ({{currency.symbol}})
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
 
   <mat-form-field  appearance="fill" style="width: 300px;">
     <mat-label>Amount</mat-label>
@@ -34,24 +46,27 @@
   </mat-form-field>
 
   <button mat-raised-button color="primary" style="margin-top: 12px; min-width: 300px;" (click)="onConvertClick()" [disabled]="!selectedCurrency() || !amount() || !toCurrency() || !selectedDate() || converting()">
-    <ng-container *ngIf="converting(); else convertText">
+    @if (converting()) {
       <mat-spinner [diameter]="22" style="vertical-align: middle; display: inline-block;"></mat-spinner> Converting...
-    </ng-container>
-    <ng-template #convertText>Convert</ng-template>
+    } @else {
+      Convert
+    }
   </button>
 
   <!-- currency result -->
-  <currency-result *ngIf="convertedResult() as result" [data]="{
-    amount: amount() ?? 0,
-    fromCurrency: result.fromCurrency,
-    toCurrency: result.toCurrency,
-    convertedAmount: result.convertedAmount,
-    toCurrencyRate: result.toCurrencyRate
-  }"></currency-result>
+  @if (convertedResult(); as result) {
+    <currency-result [data]="{
+      amount: amount() ?? 0,
+      fromCurrency: result.fromCurrency,
+      toCurrency: result.toCurrency,
+      convertedAmount: result.convertedAmount,
+      toCurrencyRate: result.toCurrencyRate
+    }"></currency-result>
+  }
 
   <!-- currency conversions list -->
   <currency-conversions-list></currency-conversions-list>
 
-  <!-- <pre *ngIf="!loading() && currencies()">{{ currencies() | json }}</pre> -->
+  <!-- @if (!loading() && currencies()) { <pre>{{ currencies() | json }}</pre> } -->
 </main>
 <router-outlet />
