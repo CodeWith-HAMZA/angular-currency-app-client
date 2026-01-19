@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { CurrencyResultComponent } from './components/currency-result/currency-result.component';
 import { CurrencyConversionsListComponent } from './components/currency-conversions-list/currency-conversions-list.component';
@@ -27,6 +30,9 @@ import { formatDate, pushLocal, filterPastDates } from './utils';
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCardModule,
+    MatIconModule,
+    MatSnackBarModule,
     FormsModule,
     CurrencyResultComponent,
     CurrencyConversionsListComponent,

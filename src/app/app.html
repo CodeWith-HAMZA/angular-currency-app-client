@@ -1,72 +1,123 @@
-<main style="display: flex; flex-direction: column; align-items: center;">
-  <h1>Currency Converter</h1>
-  @if (isLoading()) {
-    <div>Loading...</div>
-  }
-  @if (error()) {
-    <div>{{ error() }}</div>
-  }
+<main class="main-container">
+  <div class="converter-wrapper">
+    <!-- Header Card -->
+    <mat-card class="header-card">
+      <mat-card-header>
+        <div class="header-content">
+          <mat-icon class="header-icon" >currency_exchange</mat-icon>
+          <mat-card-title class="app-title">Currency Converter</mat-card-title>
+        </div>
+      </mat-card-header>
+    </mat-card>
 
-  @if (!isLoading() && currencies() && currencies()!.data) {
-    <mat-form-field appearance="fill" style="width: 300px;">
-      <mat-label>From Currency</mat-label>
-      <mat-select [ngModel]="selectedCurrency()" (ngModelChange)="selectedCurrency.set($event)">
-        @for (currency of objectValues(currencies()!.data); track currency.code) {
-          <mat-option [value]="currency.code">
-            {{currency.code}} - {{currency.name}} ({{currency.symbol}})
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  }
-
-  @if (!isLoading() && currencies() && currencies()!.data) {
-    <mat-form-field appearance="fill" style="width: 300px;">
-      <mat-label>To Currency</mat-label>
-      <mat-select [ngModel]="toCurrency()" (ngModelChange)="toCurrency.set($event)">
-        @for (currency of objectValues(currencies()!.data); track currency.code) {
-          <mat-option [value]="currency.code">
-            {{currency.code}} - {{currency.name}} ({{currency.symbol}})
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  }
-
-  <mat-form-field  appearance="fill" style="width: 300px;">
-    <mat-label>Amount</mat-label>
-    <input matInput type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" style="width: 300px;">
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" [ngModel]="selectedDate()" (ngModelChange)="selectedDate.set($event)" [matDatepickerFilter]="filterPastDates">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" style="margin-top: 12px; min-width: 300px;" (click)="onConvertClick()" [disabled]="!selectedCurrency() || !amount() || !toCurrency() || !selectedDate() || converting()">
-    @if (converting()) {
-      <mat-spinner [diameter]="22" style="vertical-align: middle; display: inline-block;"></mat-spinner> Converting...
-    } @else {
-      Convert
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <mat-card class="status-card">
+        <mat-card-content class="loading-content">
+          <mat-spinner [diameter]="40"></mat-spinner>
+          <p class="status-text">Loading currencies...</p>
+        </mat-card-content>
+      </mat-card>
     }
-  </button>
 
-  <!-- currency result -->
-  @if (convertedResult(); as result) {
-    <currency-result [data]="{
-      amount: amount() ?? 0,
-      fromCurrency: result.fromCurrency,
-      toCurrency: result.toCurrency,
-      convertedAmount: result.convertedAmount,
-      toCurrencyRate: result.toCurrencyRate
-    }"></currency-result>
-  }
+    <!-- Error State -->
+    @if (error()) {
+      <mat-card class="status-card error-card">
+        <mat-card-content class="error-content">
+          <mat-icon class="error-icon">error_outline</mat-icon>
+          <p class="status-text error-text">{{ error() }}</p>
+        </mat-card-content>
+      </mat-card>
+    }
 
-  <!-- currency conversions list -->
-  <currency-conversions-list></currency-conversions-list>
+    <!-- Converter Form Card -->
+    @if (!isLoading() && !error() && currencies() && currencies()!.data) {
+      <mat-card class="converter-card">
+        <mat-card-content>
+          <div class="form-container">
+            <!-- Currency Selection Row -->
+            <div class="currency-row">
+              <mat-form-field appearance="outline" class="currency-field">
+                <mat-label>From Currency</mat-label>
+                <mat-icon matPrefix>account_balance</mat-icon>
+                <mat-select [ngModel]="selectedCurrency()" (ngModelChange)="selectedCurrency.set($event)">
+                  @for (currency of objectValues(currencies()!.data); track currency.code) {
+                    <mat-option [value]="currency.code">
+                      <span class="currency-option">
+                        <strong>{{currency.code}}</strong> - {{currency.name}} ({{currency.symbol}})
+                      </span>
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
 
-  <!-- @if (!loading() && currencies()) { <pre>{{ currencies() | json }}</pre> } -->
+              <mat-icon class="swap-icon">swap_horiz</mat-icon>
+
+              <mat-form-field appearance="outline" class="currency-field">
+                <mat-label>To Currency</mat-label>
+                <mat-icon matPrefix>account_balance_wallet</mat-icon>
+                <mat-select [ngModel]="toCurrency()" (ngModelChange)="toCurrency.set($event)">
+                  @for (currency of objectValues(currencies()!.data); track currency.code) {
+                    <mat-option [value]="currency.code">
+                      <span class="currency-option">
+                        <strong>{{currency.code}}</strong> - {{currency.name}} ({{currency.symbol}})
+                      </span>
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Amount and Date Row -->
+            <div class="input-row">
+              <mat-form-field appearance="outline" class="input-field">
+                <mat-label>Amount</mat-label>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input matInput type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)" placeholder="Enter amount">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-field">
+                <mat-label>Date</mat-label>
+                <mat-icon matPrefix>calendar_today</mat-icon>
+                <input matInput [matDatepicker]="picker" [ngModel]="selectedDate()" (ngModelChange)="selectedDate.set($event)" [matDatepickerFilter]="filterPastDates" placeholder="Select date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <!-- Convert Button -->
+            <button 
+              mat-raised-button 
+              color="primary" 
+              class="convert-button"
+              (click)="onConvertClick()" 
+              [disabled]="!selectedCurrency() || !amount() || !toCurrency() || !selectedDate() || converting()">
+              @if (converting()) {
+                <!-- <mat-spinner [diameter]="20" class="button-spinner"></mat-spinner> -->
+                <span>Converting...</span>
+              } @else {
+                <mat-icon>swap_vert</mat-icon>
+                <span>Convert</span>
+              }
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    <!-- Currency Result -->
+    @if (convertedResult(); as result) {
+      <currency-result [data]="{
+        amount: amount() ?? 0,
+        fromCurrency: result.fromCurrency,
+        toCurrency: result.toCurrency,
+        convertedAmount: result.convertedAmount,
+        toCurrencyRate: result.toCurrencyRate
+      }"></currency-result>
+    }
+
+    <!-- Currency Conversions List -->
+    <currency-conversions-list></currency-conversions-list>
+  </div>
 </main>
 <router-outlet />
