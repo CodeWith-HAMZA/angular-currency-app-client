@@ -6,7 +6,7 @@
   <ul>
     <li *ngFor="let c of conversions; let i = index">
       <div class="currency-history__row">
-        <span class="currency-history__main">#{{conversions.length - i}}: {{ c.amount | number }} {{ c.fromCurrency }} ➔ {{ c.convertedAmount | number }} {{ c.toCurrency }}</span>
+        <span class="currency-history__main">{{ c.amount | number }} {{ c.fromCurrency }} ➔ {{ c.convertedAmount | number }} {{ c.toCurrency }}</span>
         <span class="currency-history__rate">(Rate: {{ c.toCurrencyRate }}, Date: {{ c.date }})</span>
       </div>
     </li>
