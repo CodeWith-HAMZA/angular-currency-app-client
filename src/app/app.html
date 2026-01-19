@@ -55,7 +55,7 @@
 
               <mat-form-field appearance="outline" class="currency-field">
                 <mat-label>To Currency</mat-label>
-                <mat-icon matPrefix>account_balance_wallet</mat-icon>
+                <mat-icon matPrefix>account_balance</mat-icon>
                 <mat-select [ngModel]="toCurrency()" (ngModelChange)="toCurrency.set($event)">
                   @for (currency of objectValues(currencies()!.data); track currency.code) {
                     <mat-option [value]="currency.code">
