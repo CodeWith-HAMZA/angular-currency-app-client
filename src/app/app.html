@@ -91,7 +91,7 @@
               color="primary" 
               class=""
               (click)="onConvertClick()" 
-              [disabled]="!selectedCurrency() || !amount() || !toCurrency() || !selectedDate() || converting()">
+              [disabled]="!canConvert()">
               @if (converting()) {
                 <!-- <mat-spinner [diameter]="20" class="button-spinner"></mat-spinner> -->
                 <span>Converting...</span>
